@@ -91,8 +91,13 @@ class Bayes:
 			randomindex = int(random.uniform(0,len(trainingset)))
 			testset.append(trainingset[randomindex])
 			del(trainingset[randomindex])
-		print(trainingset)
-		print(testset)
+		trainmat = []
+		trainclass = []
+		for i in trainingset:
+			trainmat.append(self.word2vecset(vocalist,doclist[i]))
+			trainclass.append(classlist[i])
+		p0v,p1v,pc1 = self.nb0(array(trainmat),array(trainclass))
+		print(pc1)
 
 			
 
