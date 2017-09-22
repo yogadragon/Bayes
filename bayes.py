@@ -87,7 +87,7 @@ class Bayes:
 		vocalist = self.createlablelist(doclist)
 		trainingset = list(range(46))
 		testset = []
-		for i in range(10):
+		for i in range(30):
 			randomindex = int(random.uniform(0,len(trainingset)))
 			testset.append(trainingset[randomindex])
 			del(trainingset[randomindex])
@@ -97,7 +97,14 @@ class Bayes:
 			trainmat.append(self.word2vecset(vocalist,doclist[i]))
 			trainclass.append(classlist[i])
 		p0v,p1v,pc1 = self.nb0(array(trainmat),array(trainclass))
-		print(pc1)
+		error = 0
+		for i in testset:
+			wordvec = self.word2vecset(vocalist,doclist[i])
+			p = self.classfynb(wordvec,p0v,p1v,pc1)
+			if p != classlist[i]:
+				error += 1
+		errorrate = float(error)/len(testset)
+		print(errorrate)
 
 			
 
