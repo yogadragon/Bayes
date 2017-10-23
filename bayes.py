@@ -71,7 +71,7 @@ class Bayes:
 		return [tok.lower() for tok in listoftokens if len(tok)>2]   # 返回长度大于2的字符,变成小写
 
 
-	def testtext(self):   # 邮件分类验证
+	def testtext(self,kk):   # 邮件分类验证
 		doclist = []
 		classlist = []
 		fulltext = []
@@ -87,7 +87,7 @@ class Bayes:
 		vocalist = self.createlablelist(doclist)
 		trainingset = list(range(46))
 		testset = []
-		for i in range(30):
+		for i in range(kk):
 			randomindex = int(random.uniform(0,len(trainingset)))
 			testset.append(trainingset[randomindex])
 			del(trainingset[randomindex])
@@ -104,7 +104,7 @@ class Bayes:
 			if p != classlist[i]:
 				error += 1
 		errorrate = float(error)/len(testset)
-		print(errorrate)
+		return errorrate
 
 			
 
@@ -120,5 +120,17 @@ class Bayes:
 # doc = array(Bayes().word2vecset(myword,test1))
 # a = Bayes().classfynb(doc,p0v,p1v,pc1)
 
+k = 1
 
-Bayes().testtext()
+fr = open('bayes_cov.plt','w')
+fr.write('variables = k,err'+'\n')
+
+err0 = 0.0
+while k < 100:
+	err = Bayes().testtext(20)
+	err0 += err
+	err1 = err0/float(k)
+	fr.write(str(float(k))+','+str(float(err1))+'\n')
+	k += 1
+
+fr.close()
